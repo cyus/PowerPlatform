@@ -17,6 +17,8 @@ export class PCFNaicsCodeSplitter implements ComponentFramework.StandardControl<
 	private _naics4FieldName: string | null;
 	private _naics6FieldName: string | null;
 
+
+
 	constructor()
 	{
 
@@ -91,9 +93,9 @@ export class PCFNaicsCodeSplitter implements ComponentFramework.StandardControl<
 
 	private RetrieveNAICSReferences(naicsCode : string) {
 		debugger
-		var entityName = "cdsp_naics6title";
-		var retrieveMultipleOptions = "?$select=_cdsp_naics2_value,_cdsp_naics4_value,cdsp_naics6titleid,cdsp_title&$filter=cdsp_number eq '" + naicsCode + "'";
-		// var retrieveMultipleOptions = "?$select=cdsp_naics6titleid,cdsp_title&$filter=cdsp_code eq '" + naicsCode + "'";
+		var entityName = "cdsp_naic6title";
+		var retrieveMultipleOptions = "?$select=_cdsp_naics2_value,_cdsp_naics4_value,cdsp_naic6titleid,cdsp_title&$filter=cdsp_number eq '" + naicsCode + "'";
+		// var retrieveMultipleOptions = "?$select=cdsp_naic6titleid,cdsp_title&$filter=cdsp_code eq '" + naicsCode + "'";
 		var thisRef = this;
 		this._context.webAPI.retrieveMultipleRecords(entityName, retrieveMultipleOptions).then(function (results: any) {
 			for (let entity of results.entities) {
@@ -103,7 +105,7 @@ export class PCFNaicsCodeSplitter implements ComponentFramework.StandardControl<
 				var naics4Value = entity["_cdsp_naics4_value"];
 				var naics4Text = entity["_cdsp_naics4_value@OData.Community.Display.V1.FormattedValue"];
 				
-				var naics6Value = entity["cdsp_naics6titleid"];
+				var naics6Value = entity["cdsp_naic6titleid"];
 				var naics6Text = entity["cdsp_title"];
 
 				console.log(naics2Value);
@@ -120,7 +122,7 @@ export class PCFNaicsCodeSplitter implements ComponentFramework.StandardControl<
 				Xrm.Page.getAttribute(thisRef._naics4FieldName).setValue([{ id: naics4Value, name: naics4Text, entityType: "cdsp_naics4subsector" }]);
 
 				// @ts-ignore
-				Xrm.Page.getAttribute(thisRef._naics6FieldName).setValue([{ id: naics6Value, name: naics6Text, entityType: "cdsp_naics6title" }]);
+				Xrm.Page.getAttribute(thisRef._naics6FieldName).setValue([{ id: naics6Value, name: naics6Text, entityType: "cdsp_naic6title" }]);
 				break;
 			}
 		}, function (error) {
@@ -135,9 +137,9 @@ export class PCFNaicsCodeSplitter implements ComponentFramework.StandardControl<
 	 */
 	public getOutputs(): IOutputs
 	{
-		return {
-			NAICSCode: this._naics6id
-		};
+        return {
+            NAICSCode: this._naics6id
+        };
 	}
 
 	/** 
